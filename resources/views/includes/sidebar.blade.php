@@ -27,14 +27,14 @@
         </a>
     </li>
 
-    {{-- <li class="{{ Request::routeIs('rekod.sebutharga.*') ? 'mm-active' : '' }}">
-        <a href="{{ route('rekod.sebutharga.index') }}">
-            <div class="parent-icon"><i class='bx bx-file'></i></div>
+    <li class="{{ request()->routeIs('sebutharga.*') ? 'mm-active' : '' }}">
+        <a href="{{ route('sebutharga.index') }}">
+            <div class="parent-icon"><i class="bx bx-file"></i></div>
             <div class="menu-title">Sebut Harga</div>
         </a>
     </li>
 
-    <li class="{{ Request::routeIs('rekod.pembayaran.*') ? 'mm-active' : '' }}">
+    {{-- <li class="{{ Request::routeIs('rekod.pembayaran.*') ? 'mm-active' : '' }}">
         <a href="{{ route('rekod.pembayaran.index') }}">
             <div class="parent-icon"><i class='bx bx-credit-card'></i></div>
             <div class="menu-title">Pembayaran</div>

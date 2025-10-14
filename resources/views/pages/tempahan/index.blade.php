@@ -286,6 +286,107 @@
                             <td><span class="text-muted">-</span></td>
                             <td><span class="text-muted">Tiada tindakan</span></td>
                         </tr>
+                        {{-- 8. Untuk Pembayaran (status: Disahkan, boleh upload bukti) --}}
+                        <tr>
+                            <td>5</td>
+                            <td class="fw-semibold">Program Inovasi Pelajar<br><small class="text-muted">Pameran</small>
+                            </td>
+                            <td>
+                                <div>UiTM Samarahan 2</div>
+                                <div class="text-muted">Dewan Seminar (DS-S2)</div>
+                            </td>
+                            <td>
+                                <div>10/12/2025 08:00 AM</div>
+                                <div class="text-muted">hingga</div>
+                                <div>10/12/2025 05:00 PM</div>
+                            </td>
+                            <td><span class="badge bg-light text-dark">WiFi, PA System</span></td>
+                            <td><span class="badge bg-warning">Belum dibayar</span></td>
+                            <td>
+                                <span class="badge bg-info text-dark">Surat Diupload</span>
+                                <div class="small text-muted mt-1">Kelulusan_DS_S2.pdf</div>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary"><i class="bx bx-show"></i> Papar</button>
+                                <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#payModal5">
+                                    <i class="bx bx-money"></i> Bayar / Upload Bukti
+                                </button>
+                            </td>
+                            {{-- Modal Bayar / Upload Bukti --}}
+                            <div class="modal fade" id="payModal5" tabindex="-1" aria-hidden="true"
+                                data-bs-backdrop="static" data-bs-keyboard="false">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content bg-white">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Pembayaran bagi Seminar Akademik</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Tutup"></button>
+                                        </div>
+
+                                        {{-- NOTE: kalau route belum ada, tukar action="#" --}}
+                                        <form method="POST" action="{{ route('tempahan.pembayaran.upload', 5) }}"
+                                            enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <div class="fw-semibold mb-1">Butiran Bayaran</div>
+                                                    <div class="small text-muted">Sila buat bayaran menggunakan maklumat di
+                                                        bawah, kemudian upload bukti pembayaran.</div>
+                                                    <div class="border rounded p-3 mt-2">
+                                                        <div><strong>Amaun Perlu Dibayar:</strong> RM 2,000.00</div>
+                                                        <div><strong>Bank:</strong> RHB Bank Berhad</div>
+                                                        <div><strong>No. Akaun:</strong> 1-23456-7890</div>
+                                                        <div><strong>Rujukan dicadangkan:</strong>
+                                                            SEMINAR-AUD-MUK-2025-12-10</div>
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Tarikh Bayaran</label>
+                                                        <input type="date" name="tarikh_bayar" class="form-control"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Jumlah (RM)</label>
+                                                        <input type="number" step="0.01" name="jumlah"
+                                                            class="form-control" value="2000.00" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 mt-3">
+                                                    <label class="form-label">No. Rujukan Transaksi (jika ada)</label>
+                                                    <input type="text" name="rujukan" class="form-control"
+                                                        placeholder="CTH: FPX123456 / TT-001">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Bukti Pembayaran (PDF/JPG/PNG)</label>
+                                                    <input type="file" name="bukti" class="form-control"
+                                                        accept=".pdf,.jpg,.jpeg,.png" required>
+                                                    <div class="form-text">Mock-up: fail tidak disimpan, hanya notifikasi
+                                                        berjaya.</div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Catatan (opsyenal)</label>
+                                                    <textarea name="catatan" class="form-control" rows="2" placeholder="Contoh: Bayaran FPX melalui Maybank2u."></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Tutup</button>
+                                                <button type="submit" class="btn btn-success">Hantar Bukti</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
                     </tbody>
                 </table>
             </div>

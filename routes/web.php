@@ -158,6 +158,131 @@ Route::middleware('auth')->group(function () {
             ->with('success', 'Surat telah dimuat naik (demo).');
     })->name('tempahan.upload.surat');
 
+
+    // =====================
+    //  SEBUTHARGA (MOCKUP)
+    // =====================
+    Route::prefix('sebutharga')->name('sebutharga.')->group(function () {
+
+        // Mock tempahan ringkas untuk dipilih di borang
+        $tempahanList = [
+            101 => [
+                'id' => 101,
+                'nama_program' => 'Festival Kampus',
+                'kampus_nama' => 'UiTM Samarahan',
+                'ruang_nama' => 'Dewan Jubli',
+                'tarikh_mula' => '2025-05-01 08:00:00',
+                'tarikh_tamat' => '2025-05-05 23:00:00',
+                'status' => 'Diluluskan'
+            ],
+            102 => [
+                'id' => 102,
+                'nama_program' => 'Hari Terbuka Fakulti',
+                'kampus_nama' => 'UiTM Samarahan',
+                'ruang_nama' => 'Dewan Jubli',
+                'tarikh_mula' => '2025-11-30 08:00:00',
+                'tarikh_tamat' => '2025-11-30 17:00:00',
+                'status' => 'Diluluskan'
+            ],
+        ];
+
+        // INDEX
+        Route::get('/', function () use ($tempahanList) {
+            // Mock senarai Sebut Harga (ringkas)
+            $sebuthargaList = [
+                [
+                    'id' => 1,
+                    'no_rujukan' => 'UITM/SBH/2025/001',
+                    'tempahan_id' => 101,
+                    'tajuk' => 'Fasiliti & Prasarana',
+                    'items' => [
+                        ['desc' => 'Dewan Jubli (1–5 Mei 2025)', 'rate' => '2,500.00 / hari x 5', 'amount' => 12500.00],
+                        ['desc' => 'Kerusi banquet', 'rate' => '4 x 100', 'amount' => 400.00],
+                        ['desc' => 'Bilik Perdana (3 & 4 Mei)', 'rate' => '315 x 1.5', 'amount' => 472.50],
+                    ],
+                    'status' => 'Ditutup',
+                ],
+                [
+                    'id' => 2,
+                    'no_rujukan' => 'UITM/SBH/2025/002',
+                    'tempahan_id' => 102,
+                    'tajuk' => 'Sewaan Hari Terbuka',
+                    'items' => [
+                        ['desc' => 'Dewan Jubli (30 Nov 2025)', 'rate' => '2,000.00 x 1', 'amount' => 2000.00],
+                    ],
+                    'status' => 'Draf',
+                ],
+            ];
+
+            // Lampirkan ringkasan tempahan & jumlah
+            foreach ($sebuthargaList as &$s) {
+                $s['tempahan'] = $tempahanList[$s['tempahan_id']];
+                $s['total'] = array_sum(array_map(function ($r) {
+                    return isset($r['amount']) ? (float) $r['amount'] : 0.0;
+                }, $s['items']));
+            }
+
+            return view('pages.sebutharga.index', compact('sebuthargaList'));
+        })->name('index');
+
+        // FORM (Tambah/Kemaskini) — ringkas
+        Route::get('/form', function () use ($tempahanList) {
+            $id = request('id');
+            $str_mode = $id ? 'Kemaskini' : 'Tambah';
+            $save_route = route('sebutharga.save');
+
+            // Data sedia ada bila edit (mock)
+            $sebutharga = $id ? [
+                'id' => 1,
+                'no_rujukan' => 'UITM/SBH/2025/001',
+                'tempahan_id' => 101,
+                'tajuk' => 'Fasiliti & Prasarana',
+                'items' => [
+                    ['desc' => 'Dewan Jubli (1–5 Mei 2025)', 'rate' => '2,500.00 / hari x 5', 'amount' => 12500.00],
+                    ['desc' => 'Kerusi banquet', 'rate' => '4 x 100', 'amount' => 400.00],
+                ],
+            ] : null;
+
+            return view('pages.sebutharga.form', compact('str_mode', 'save_route', 'sebutharga', 'tempahanList'));
+        })->name('form');
+
+        // SAVE (mock sahaja)
+        Route::post('/save', function () {
+            return redirect()->route('sebutharga.index')->with('success', 'Sebutharga disimpan (mock).');
+        })->name('save');
+
+        // VIEW: Papar satu Sebut Harga (MOCK)
+        Route::get('/{id}', function ($id) use ($tempahanList) {
+            // MOCK: Rekod detail
+            $sebutharga = [
+                'id' => (int)$id,
+                'tempahan_id' => 101,
+                'no_rujukan' => 'UITM/SBH/2025/001',
+                'tajuk' => 'Sebut Harga PA System & Kelengkapan',
+                'skop' => 'Pembekalan PA system lengkap termasuk mikrofon, mixer, speaker.',
+                'tarikh_iklan' => '2025-10-20',
+                'tarikh_tutup' => '2025-10-27',
+                'pegawai' => 'En. Rahman',
+                'anggaran_kos' => '5000',
+                'vendor_dipelawa' => 'Syarikat A, Syarikat B, Syarikat C',
+                'status' => 'Dihantar',
+                'lampiran' => ['nama' => 'Iklan_PA_System.pdf'],
+            ];
+            $tempahan = $tempahanList[$sebutharga['tempahan_id']] ?? null;
+
+            return view('pages.sebutharga.view', compact('sebutharga', 'tempahan'));
+        })->name('view');
+    });
+
+    // =====================
+    //  PEMBAYARAN (MOCK)
+    // =====================
+    Route::post('/tempahan/{id}/pembayaran', function ($id) {
+        // MOCK: tiada simpan fail. Hanya flash mesej berjaya.
+        // Akses data: request('tarikh_bayar'), request('jumlah'), request('rujukan'), request()->file('bukti'), request('catatan')
+        return redirect()->back()->with('success', 'Bukti pembayaran dimuat naik (mock).');
+    })->name('tempahan.pembayaran.upload');
+
     //Campus
     Route::get('campus', 'CampusController@index')->name('campus');
     Route::get('campus/view/{id}', 'CampusController@show')->name('campus.show');
