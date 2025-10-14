@@ -299,7 +299,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () use ($kampusOptions) {
             // Mock data ruang
             $ruangList = [
-                ['id' => 1, 'nama' => 'Dewan Besar', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 'Aktif'],
+                ['id' => 1, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 'Aktif'],
                 ['id' => 2, 'nama' => 'Auditorium', 'kampus_id' => 3, 'pemilik' => 'Fakulti Sains', 'status' => 'Aktif'],
                 ['id' => 3, 'nama' => 'Bilik Perdana', 'kampus_id' => 2, 'pemilik' => 'Pejabat Rektor', 'status' => 'Tidak Aktif'],
             ];
@@ -318,7 +318,7 @@ Route::middleware('auth')->group(function () {
             $save_route = route('ruang.save');
 
             // Mock rekod bila edit
-            $ruang = $id ? ['id' => 1, 'nama' => 'Dewan Besar', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1] : null;
+            $ruang = $id ? ['id' => 1, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1] : null;
 
             return view('pages.ruang.form', compact('str_mode', 'save_route', 'ruang', 'kampusOptions'));
         })->name('form');
@@ -331,7 +331,7 @@ Route::middleware('auth')->group(function () {
         // VIEW: Papar satu ruang
         Route::get('/{id}', function ($id) use ($kampusOptions) {
             // Mock lookup by id
-            $ruang = ['id' => (int)$id, 'nama' => 'Dewan Besar', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1];
+            $ruang = ['id' => (int)$id, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1];
             $kampus_nama = isset($kampusOptions[$ruang['kampus_id']]) ? $kampusOptions[$ruang['kampus_id']] : '-';
             return view('pages.ruang.view', compact('ruang', 'kampus_nama'));
         })->name('view');
