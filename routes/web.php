@@ -11,7 +11,9 @@
 |
 */
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -30,21 +32,132 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('rekod')->name('rekod.')->group(function () {
+    Route::get('/tempahan', function () {
+        $tempahanList = session('tempahan_list', []);
 
-        // Tempahan (Form Pemohon)
-        Route::view('/tempahan', 'pages/tempahan/form')->name('tempahan.create');
+        // Seed contoh bila kosong (untuk nampakkan "Upload Surat")
+        if (empty($tempahanList)) {
+            $tempahanList = [
+                [
+                    'id' => Str::upper(Str::random(1)),
+                    'nama_program' => 'Majlis Apresiasi Pelajar',
+                    'tujuan' => 'Majlis',
+                    'kampus_id' => 'S2',
+                    'kampus_nama' => 'UiTM Samarahan 2',
+                    'ruang_kod' => 'DJ-S2',
+                    'ruang_nama' => 'Dewan Jubli',
+                    'tarikh_mula' => now()->addDays(10)->setTime(8, 30)->toDateTimeString(),
+                    'tarikh_tamat' => now()->addDays(10)->setTime(12, 30)->toDateTimeString(),
+                    'perkhidmatan' => ['WiFi', 'Audio Visual'],
+                    'status' => 'Disahkan (Available)',
+                    'surat' => null,
+                ]
+            ];
+            session(['tempahan_list' => $tempahanList]);
+        }
+        return view('pages.tempahan.index', compact('tempahanList'));
+    })->name('tempahan.index');
 
-        // Mock submit (tiada simpanan, cuma flash message)
-        Route::post('/tempahan/mock-submit', function () {
-            return back()->with('success', 'Permohonan dihantar.');
-        })->name('tempahan.store');
+    Route::get('/tempahan/form', function () {
+        $campusOptions = [
+            ['id' => 'S1', 'name' => 'UiTM Samarahan'],
+            ['id' => 'S2', 'name' => 'UiTM Samarahan 2'],
+            ['id' => 'MUK', 'name' => 'UiTM Mukah'],
+        ];
+        return view('pages.tempahan.form', compact('campusOptions'));
+    })->name('tempahan.form');
 
-        // Sebut Harga & Pembayaran – buat dulu sebagai halaman kosong
-        Route::view('/sebut-harga', 'sebut-harga/index')->name('sebutharga.index');
-        Route::view('/pembayaran', 'pembayaran/index')->name('pembayaran.index');
-    });
-    
+    Route::post('/tempahan/submit', function (Request $request) {
+        $data = $request->only([
+            'nama_program',
+            'tarikh_mula',
+            'tarikh_tamat',
+            'kampus_id',
+            'kampus_nama',
+            'ruang_kod',
+            'ruang_nama',
+            'tujuan',
+            'perkhidmatan'
+        ]);
+        $data['status'] = 'Sedang Diproses';
+        $data['id'] = Str::upper(Str::random(6));
+        $data['surat'] = null; // metadata upload surat (nama, saiz)
+        $list = session('tempahan_list', []);
+        array_unshift($list, $data);
+        session(['tempahan_list' => $list]);
+
+        return redirect()->route('tempahan.index')
+            ->with('success', 'Permohonan telah dihantar, sila semak dalam masa 3 hari.');
+    })->name('tempahan.submit');
+
+    Route::get('/tempahan/{id}', function ($id) {
+        $list = session('tempahan_list', []);
+        $tempahan = collect($list)->firstWhere('id', $id);
+        abort_if(!$tempahan, 404);
+        return view('pages.tempahan.view', compact('tempahan'));
+    })->name('tempahan.view');
+
+    /* ===== Tindakan PIC (superadmin view) ===== */
+
+    // Sahkan (Available)
+    Route::post('/tempahan/{id}/pic-confirm', function ($id, Request $request) {
+        $list = session('tempahan_list', []);
+        foreach ($list as &$t) {
+            if ($t['id'] === $id) {
+                $t['status'] = 'Disahkan (Available)';
+                $t['pic_remark'] = $request->input('remark');
+                $t['disahkan_pada'] = now()->format('d/m/Y h:i A');
+                break;
+            }
+        }
+        session(['tempahan_list' => $list]);
+
+        return redirect()->route('tempahan.index')
+            ->with('success', 'Tempahan telah disahkan. Pemohon boleh memuat naik surat.');
+    })->name('tempahan.pic.confirm');
+
+    // Tolak / Tidak Tersedia
+    Route::post('/tempahan/{id}/pic-reject', function ($id, Request $request) {
+        $list = session('tempahan_list', []);
+        foreach ($list as &$t) {
+            if ($t['id'] === $id) {
+                $t['status'] = 'Tidak Tersedia';
+                $t['pic_remark'] = $request->input('remark');
+                $t['ditolak_pada'] = now()->format('d/m/Y h:i A');
+                break;
+            }
+        }
+        session(['tempahan_list' => $list]);
+
+        return redirect()->route('tempahan.index')
+            ->with('success', 'Tempahan telah ditandakan sebagai Tidak Tersedia.');
+    })->name('tempahan.pic.reject');
+
+    /* ===== Upload Surat oleh Pemohon (di index) ===== */
+    Route::post('/tempahan/{id}/upload-surat', function ($id, Request $request) {
+        // Demo sahaja: tidak simpan fail ke disk — hanya rekod metadata
+        $list = session('tempahan_list', []);
+        foreach ($list as &$t) {
+            if ($t['id'] === $id) {
+                if ($request->hasFile('surat')) {
+                    $file = $request->file('surat');
+                    $t['surat'] = [
+                        'nama' => $file->getClientOriginalName(),
+                        'saiz' => $file->getSize(),
+                        'muat_naik_pada' => now()->format('d/m/Y h:i A'),
+                    ];
+                }
+                // status boleh kekal Disahkan; atau nak tukar:
+                // $t['status'] = 'Surat Diupload';
+                break;
+            }
+        }
+        session(['tempahan_list' => $list]);
+
+        return redirect()->route('tempahan.index')
+            ->with('success', 'Surat telah dimuat naik (demo).');
+    })->name('tempahan.upload.surat');
+
     //Campus
     Route::get('campus', 'CampusController@index')->name('campus');
     Route::get('campus/view/{id}', 'CampusController@show')->name('campus.show');

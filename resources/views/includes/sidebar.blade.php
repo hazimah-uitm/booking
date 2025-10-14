@@ -20,14 +20,14 @@
 
     <li class="menu-label">Pengurusan Rekod</li>
 
-    <li class="{{ Request::routeIs('rekod.tempahan.*') ? 'mm-active' : '' }}">
-        <a href="{{ route('rekod.tempahan.create') }}">
+    <li class="{{ Request::routeIs('tempahan.*') ? 'mm-active' : '' }}">
+        <a href="{{ route('tempahan.index') }}">
             <div class="parent-icon"><i class='bx bx-calendar-check'></i></div>
             <div class="menu-title">Tempahan</div>
         </a>
     </li>
 
-    <li class="{{ Request::routeIs('rekod.sebutharga.*') ? 'mm-active' : '' }}">
+    {{-- <li class="{{ Request::routeIs('rekod.sebutharga.*') ? 'mm-active' : '' }}">
         <a href="{{ route('rekod.sebutharga.index') }}">
             <div class="parent-icon"><i class='bx bx-file'></i></div>
             <div class="menu-title">Sebut Harga</div>
@@ -39,7 +39,7 @@
             <div class="parent-icon"><i class='bx bx-credit-card'></i></div>
             <div class="menu-title">Pembayaran</div>
         </a>
-    </li>
+    </li> --}}
 
 
     <li class="menu-label">Pengurusan Pengguna</li>

@@ -3,214 +3,259 @@
 @section('content')
 <!-- Breadcrumb -->
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-    <div class="breadcrumb-title pe-3">Pengurusan Rekod</div>
-    <div class="ps-3">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0 p-0">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
-                <li class="breadcrumb-item"><a href="{{ route('rekod.tempahan.create') }}">Tempahan</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Borang Pemohon</li>
-            </ol>
-        </nav>
-    </div>
+  <div class="breadcrumb-title pe-3">Tempahan Ruang</div>
+  <div class="ps-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0 p-0">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
+        <li class="breadcrumb-item"><a href="{{ route('tempahan.index') }}">Senarai Tempahan</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Borang Tempahan</li>
+      </ol>
+    </nav>
+  </div>
 </div>
 <!-- End Breadcrumb -->
 
-<h6 class="mb-0 text-uppercase">Borang Tempahan Ruang (Pemohon)</h6>
-<hr />
-
-@if(session('success'))
-<div class="alert alert-success">{{ session('success') }}</div>
-@endif
-
-@php
-// Senarai ruang + imej (boleh pindah ke DB nanti)
-$ruangList = [
-    ['id'=>'dewan-seri-samarahan','name'=>'Dewan Jubli','img'=>asset('public/assets/ruang/dewan-seri-samarahan.jpg')],
-    ['id'=>'dewan-kuliah','name'=>'Dewan Kuliah','img'=>asset('public/assets/ruang/dewan-kuliah.jpg')],
-    ['id'=>'bilik-seminar','name'=>'Bilik Seminar','img'=>asset('public/assets/ruang/bilik-seminar.jpg')],
-];
-@endphp
-
-<style>
-/* gaya kad boleh pilih */
-input.ruang-radio { display:none; }
-label.selectable-card{
-    cursor:pointer; border:2px solid #e9ecef; border-radius:.5rem; overflow:hidden; transition:.15s;
-    display:block; height:100%;
-}
-label.selectable-card:hover{ border-color:#cfd8e3; }
-input.ruang-radio:checked + label.selectable-card{
-    border-color:#3b82f6; box-shadow:0 0 0 .25rem rgba(59,130,246,.25);
-}
-.selectable-card .card-img-top{ object-fit:cover; height:160px; }
-</style>
+<h6 class="mb-0 text-uppercase">Sewa Ruang</h6>
+<hr/>
 
 <div class="card">
-    <div class="card-body">
-        <form method="POST" action="{{ route('rekod.tempahan.store') }}" enctype="multipart/form-data">
-            {{ csrf_field() }}
+  <div class="card-body">
+    <form method="POST" action="{{ route('tempahan.submit') }}" id="frmTempahan">
+      {{ csrf_field() }}
 
-            {{-- ================== Maklumat Pemohon ================== --}}
-            <h6 class="text-muted text-uppercase mb-3">Maklumat Pemohon</h6>
+      {{-- ========== 1) Kampus & Ruang (atas) ========== --}}
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="mb-0 text-uppercase">Kampus & Ruang</h6>
+        <small class="text-muted">Pilih kampus dahulu, kemudian pilih ruang</small>
+      </div>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label" for="pemohon_nama">Nama Penuh / Organisasi</label>
-                    <input type="text" id="pemohon_nama" name="pemohon_nama"
-                           class="form-control {{ $errors->has('pemohon_nama') ? 'is-invalid' : '' }}"
-                           value="{{ old('pemohon_nama') }}">
-                    @if ($errors->has('pemohon_nama'))
-                        <div class="invalid-feedback">@foreach ($errors->get('pemohon_nama') as $e) {{ $e }} @endforeach</div>
-                    @endif
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label" for="pemohon_id">No. IC / Passport</label>
-                    <input type="text" id="pemohon_id" name="pemohon_id"
-                           class="form-control {{ $errors->has('pemohon_id') ? 'is-invalid' : '' }}"
-                           value="{{ old('pemohon_id') }}">
-                    @if ($errors->has('pemohon_id'))
-                        <div class="invalid-feedback">@foreach ($errors->get('pemohon_id') as $e) {{ $e }} @endforeach</div>
-                    @endif
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label" for="pemohon_phone">No. Telefon</label>
-                    <input type="text" id="pemohon_phone" name="pemohon_phone"
-                           class="form-control {{ $errors->has('pemohon_phone') ? 'is-invalid' : '' }}"
-                           value="{{ old('pemohon_phone') }}">
-                    @if ($errors->has('pemohon_phone'))
-                        <div class="invalid-feedback">@foreach ($errors->get('pemohon_phone') as $e) {{ $e }} @endforeach</div>
-                    @endif
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label" for="pemohon_email">Emel</label>
-                    <input type="email" id="pemohon_email" name="pemohon_email"
-                           class="form-control {{ $errors->has('pemohon_email') ? 'is-invalid' : '' }}"
-                           value="{{ old('pemohon_email') }}">
-                    @if ($errors->has('pemohon_email'))
-                        <div class="invalid-feedback">@foreach ($errors->get('pemohon_email') as $e) {{ $e }} @endforeach</div>
-                    @endif
-                </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Pilih Kampus</label>
+          <select class="form-select" id="kampusSelect" name="kampus_id" required>
+            <option value="" disabled {{ old('kampus_id') ? '' : 'selected' }}>-- Pilih Kampus --</option>
+            @foreach($campusOptions as $c)
+              <option value="{{ $c['id'] }}" data-name="{{ $c['name'] }}" {{ old('kampus_id') === $c['id'] ? 'selected' : '' }}>
+                {{ $c['name'] }}
+              </option>
+            @endforeach
+          </select>
+          <input type="hidden" name="kampus_nama" id="kampusNama" value="{{ old('kampus_nama') }}">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Pilih Ruang</label>
+          <select class="form-select" id="ruangSelect" name="ruang_kod" required {{ old('kampus_id') ? '' : 'disabled' }}>
+            <option value="">{{ old('kampus_id') ? '-- Pilih Ruang --' : '-- Sila pilih kampus dahulu --' }}</option>
+          </select>
+          <input type="hidden" name="ruang_nama" id="ruangNama" value="{{ old('ruang_nama') }}">
+        </div>
+      </div>
+
+      <div id="ruangCards" class="row g-3 mt-2">
+        <!-- Diisi oleh JS sebagai galeri kad ruang -->
+      </div>
+
+      {{-- ========== 2) Perkhidmatan Tambahan (terus bawah kampus & ruang) ========== --}}
+      <hr class="my-4"/>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label fw-semibold">Perkhidmatan Tambahan</label>
+          <div class="d-flex flex-wrap gap-3">
+            @php $svcOld = (array) old('perkhidmatan', []); @endphp
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="perkhidmatan[]" value="Perhiasan" id="chkPerhiasan"
+                     {{ in_array('Perhiasan', $svcOld) ? 'checked' : '' }}>
+              <label class="form-check-label" for="chkPerhiasan">Perhiasan</label>
             </div>
-
-            <hr>
-
-            {{-- ================== Maklumat Tempahan ================== --}}
-            <h6 class="text-muted text-uppercase mb-3">Maklumat Tempahan</h6>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label" for="nama_program">Nama Program</label>
-                    <input type="text" id="nama_program" name="nama_program"
-                           class="form-control {{ $errors->has('nama_program') ? 'is-invalid' : '' }}"
-                           value="{{ old('nama_program') }}" placeholder="Contoh: Seminar Inovasi 2025">
-                    @if ($errors->has('nama_program'))
-                        <div class="invalid-feedback">@foreach ($errors->get('nama_program') as $e) {{ $e }} @endforeach</div>
-                    @endif
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label" for="campus">Kampus</label>
-                    <select id="campus" name="campus" class="form-control {{ $errors->has('campus') ? 'is-invalid' : '' }}">
-                        <option value="" disabled {{ old('campus') ? '' : 'selected' }}>Pilih Kampus</option>
-                        <option {{ old('campus')=='Samarahan 1'?'selected':'' }}>Samarahan 1</option>
-                        <option {{ old('campus')=='Samarahan 2'?'selected':'' }}>Samarahan 2</option>
-                        <option {{ old('campus')=='Mukah'?'selected':'' }}>Mukah</option>
-                    </select>
-                    @if ($errors->has('campus'))
-                        <div class="invalid-feedback">@foreach ($errors->get('campus') as $e) {{ $e }} @endforeach</div>
-                    @endif
-                </div>
-
-                <div class="col-md-3 mb-3">
-                    <label class="form-label" for="tarikh_mula">Tarikh Mula</label>
-                    <input type="date" id="tarikh_mula" name="tarikh_mula"
-                           class="form-control {{ $errors->has('tarikh_mula') ? 'is-invalid' : '' }}"
-                           value="{{ old('tarikh_mula') }}">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label" for="masa_mula">Masa Mula</label>
-                    <input type="time" id="masa_mula" name="masa_mula"
-                           class="form-control {{ $errors->has('masa_mula') ? 'is-invalid' : '' }}"
-                           value="{{ old('masa_mula') }}">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label" for="tarikh_tamat">Tarikh Tamat</label>
-                    <input type="date" id="tarikh_tamat" name="tarikh_tamat"
-                           class="form-control {{ $errors->has('tarikh_tamat') ? 'is-invalid' : '' }}"
-                           value="{{ old('tarikh_tamat') }}">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label" for="masa_tamat">Masa Tamat</label>
-                    <input type="time" id="masa_tamat" name="masa_tamat"
-                           class="form-control {{ $errors->has('masa_tamat') ? 'is-invalid' : '' }}"
-                           value="{{ old('masa_tamat') }}">
-                </div>
-
-                <div class="col-12 mb-3">
-                    <label class="form-label" for="tujuan">Tujuan / Keterangan Program</label>
-                    <textarea id="tujuan" name="tujuan" rows="3"
-                              class="form-control {{ $errors->has('tujuan') ? 'is-invalid' : '' }}"
-                              placeholder="Ringkasan aktiviti, anggaran peserta, keperluan khas...">{{ old('tujuan') }}</textarea>
-                </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="perkhidmatan[]" value="WiFi" id="chkWifi"
+                     {{ in_array('WiFi', $svcOld) ? 'checked' : '' }}>
+              <label class="form-check-label" for="chkWifi">WiFi</label>
             </div>
-
-            {{-- ============ Pilih Ruang (Gambar) ============ --}}
-            <h6 class="text-muted text-uppercase mb-3">Pilih Ruang</h6>
-            <div class="row">
-                @foreach($ruangList as $r)
-                    <div class="col-md-4 mb-3">
-                        <input class="ruang-radio" type="radio" id="ruang_{{ $r['id'] }}" name="ruang" value="{{ $r['name'] }}" {{ old('ruang')==$r['name']?'checked':'' }}>
-                        <label class="selectable-card" for="ruang_{{ $r['id'] }}">
-                            <img class="card-img-top" src="{{ $r['img'] }}" alt="{{ $r['name'] }}">
-                            <div class="p-3">
-                                <h6 class="mb-0">{{ $r['name'] }}</h6>
-                            </div>
-                        </label>
-                    </div>
-                @endforeach
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="perkhidmatan[]" value="Audio Visual" id="chkAV"
+                     {{ in_array('Audio Visual', $svcOld) ? 'checked' : '' }}>
+              <label class="form-check-label" for="chkAV">Audio Visual</label>
             </div>
-            @if ($errors->has('ruang'))
-                <div class="text-danger mb-3 small">@foreach ($errors->get('ruang') as $e) {{ $e }} @endforeach</div>
-            @endif
+          </div>
+        </div>
+      </div>
 
-            {{-- Perkhidmatan tambahan (masih dropdown biasa) --}}
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label" for="perkhidmatan">Perkhidmatan</label>
-                    <select id="perkhidmatan" name="perkhidmatan"
-                            class="form-control {{ $errors->has('perkhidmatan') ? 'is-invalid' : '' }}">
-                        <option value="" disabled {{ old('perkhidmatan') ? '' : 'selected' }}>Pilih Perkhidmatan</option>
-                        <option {{ old('perkhidmatan')=='PA System'?'selected':'' }}>PA System</option>
-                        <option {{ old('perkhidmatan')=='Meja & Kerusi'?'selected':'' }}>Meja & Kerusi</option>
-                        <option {{ old('perkhidmatan')=='Pembersihan'?'selected':'' }}>Pembersihan</option>
-                        <option {{ old('perkhidmatan')=='Pengawal Keselamatan'?'selected':'' }}>Pengawal Keselamatan</option>
-                    </select>
-                </div>
+      {{-- ========== 3) Nama Program (full width) ========== --}}
+      <hr class="my-4"/>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label fw-semibold">Nama Program</label>
+          <input type="text" class="form-control" name="nama_program"
+                 placeholder="Contoh: Seminar Inovasi 2025"
+                 value="{{ old('nama_program') }}" required>
+        </div>
+      </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="form-label" for="surat">Surat Permohonan (PDF/JPG)</label>
-                    <input type="file" id="surat" name="surat" class="form-control">
-                </div>
-            </div>
+      {{-- ========== 4) Tarikh & Masa (1 baris 2 kolum) ========== --}}
+      <div class="row g-3 mt-0">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Tarikh & Masa Mula</label>
+          <input type="datetime-local" class="form-control" name="tarikh_mula" value="{{ old('tarikh_mula') }}" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Tarikh & Masa Tamat</label>
+          <input type="datetime-local" class="form-control" name="tarikh_tamat" value="{{ old('tarikh_tamat') }}" required>
+        </div>
+      </div>
 
-            <hr>
+      {{-- ========== 5) Tujuan / Penerangan (textarea) ========== --}}
+      <div class="row g-3 mt-1">
+        <div class="col-12">
+          <label class="form-label fw-semibold d-flex align-items-center gap-2">
+            Tujuan / Penerangan Program
+            <small class="text-muted">(boleh letak perenggan atau senarai ringkas)</small>
+          </label>
+          <textarea class="form-control" name="tujuan" rows="4" maxlength="1000"
+                    placeholder="Contoh: Taklimat keselamatan, sesi soal jawab, susun atur pentas, keperluan teknikal, dll."
+                    oninput="updateCounter(this)">{{ old('tujuan') }}</textarea>
+          <div class="d-flex justify-content-between">
+            <small class="text-muted">Beritahu keperluan khusus (layout, PA system, dsb.).</small>
+            <small class="text-muted"><span id="tujuanCount">0</span>/1000</small>
+          </div>
+        </div>
+      </div>
 
-            {{-- ================== Pengesahan ================== --}}
-            <h6 class="text-muted text-uppercase mb-2">Pengesahan Pemohon</h6>
-            <div class="form-check mb-3">
-                <input class="form-check-input {{ $errors->has('ack') ? 'is-invalid' : '' }}" type="checkbox" id="ack" name="ack" {{ old('ack')?'checked':'' }}>
-                <label class="form-check-label" for="ack">
-                    Saya mengesahkan maklumat adalah benar dan memahami proses kelulusan.
-                </label>
-                @if ($errors->has('ack'))
-                    <div class="invalid-feedback d-block">@foreach ($errors->get('ack') as $e) {{ $e }} @endforeach</div>
-                @endif
-            </div>
-
-            <button type="submit" class="btn btn-primary"><i class="bx bx-send"></i> Hantar Permohonan</button>
-            <button type="button" class="btn btn-outline-secondary" onclick="window.location.reload()">Reset</button>
-        </form>
-    </div>
+      <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
+        <a href="{{ route('tempahan.index') }}" class="btn btn-secondary">Kembali</a>
+      </div>
+    </form>
+  </div>
 </div>
+
+{{-- ========== JS Demo Data + UI Binding ========== --}}
+<script>
+const DATA_RUANG = {
+  "S1": [
+    { kod:"DJ-S1",  nama:"Dewan Jubli",   kapasiti:800,  img:"https://images.unsplash.com/photo-1503428593586-e225b39bddfe?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"AUD-S1", nama:"Auditorium",    kapasiti:300,  img:"https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"BK1-S1", nama:"Bilik Kuliah 1",kapasiti:60,   img:"https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" },
+  ],
+  "S2": [
+    { kod:"DJ-S2",  nama:"Dewan Jubli",   kapasiti:1000, img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"AUD-S2", nama:"Auditorium",    kapasiti:350,  img:"https://images.unsplash.com/photo-1470229702981-0f158b006d51?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"BK1-S2", nama:"Bilik Kuliah 1",kapasiti:80,   img:"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1200&auto=format&fit=crop" },
+  ],
+  "MUK": [
+    { kod:"AUD-MUK",  nama:"Auditorium",   kapasiti:250, img:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"BK-A-MUK", nama:"Bilik Kuliah A",kapasiti:50, img:"https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1200&auto=format&fit=crop" },
+  ],
+};
+
+const kampusSelect = document.getElementById('kampusSelect');
+const ruangSelect  = document.getElementById('ruangSelect');
+const ruangCards   = document.getElementById('ruangCards');
+const inputKampusNama = document.getElementById('kampusNama');
+const inputRuangNama  = document.getElementById('ruangNama');
+
+function populateRuang(kampusId) {
+  const list = DATA_RUANG[kampusId] || [];
+
+  // Dropdown ruang
+  ruangSelect.innerHTML = list.length
+    ? '<option value="" disabled selected>-- Pilih Ruang --</option>'
+    : '<option value="">-- Tiada ruang untuk kampus ini --</option>';
+  list.forEach(r => {
+    const opt = document.createElement('option');
+    opt.value = r.kod;
+    opt.textContent = `${r.nama} (Kapasiti ${r.kapasiti})`;
+    opt.dataset.nama = r.nama;
+    ruangSelect.appendChild(opt);
+  });
+  ruangSelect.disabled = list.length === 0;
+
+  // Kad ruang
+  ruangCards.innerHTML = '';
+  list.forEach(r => {
+    const col = document.createElement('div');
+    col.className = 'col-md-4';
+    col.innerHTML = `
+      <div class="card h-100 ruang-card" data-kod="${r.kod}" data-nama="${r.nama}">
+        <img src="${r.img}" class="card-img-top" alt="${r.nama}" style="object-fit:cover;height:180px;">
+        <div class="card-body">
+          <h6 class="card-title mb-1">${r.nama}</h6>
+          <p class="text-muted mb-0">Kapasiti: ${r.kapasiti} orang</p>
+        </div>
+      </div>`;
+    ruangCards.appendChild(col);
+  });
+}
+
+kampusSelect?.addEventListener('change', function() {
+  const kampusId = this.value;
+  const kampusNama = this.options[this.selectedIndex].dataset.name || '';
+  inputKampusNama.value = kampusNama;
+
+  populateRuang(kampusId);
+
+  // Reset ruang
+  ruangSelect.value = '';
+  inputRuangNama.value = '';
+  setSelectedCard(null);
+});
+
+ruangCards?.addEventListener('click', function(e) {
+  const card = e.target.closest('.ruang-card');
+  if (!card) return;
+  const kod = card.dataset.kod;
+  const nama = card.dataset.nama;
+
+  ruangSelect.value = kod;
+  inputRuangNama.value = nama;
+  setSelectedCard(card);
+});
+
+ruangSelect?.addEventListener('change', function(){
+  const kod = this.value;
+  const option = this.options[this.selectedIndex];
+  inputRuangNama.value = option?.dataset?.nama || '';
+  const card = [...document.querySelectorAll('.ruang-card')].find(c => c.dataset.kod === kod) || null;
+  setSelectedCard(card);
+});
+
+function setSelectedCard(activeCard){
+  document.querySelectorAll('.ruang-card').forEach(c => c.classList.remove('border','border-primary','shadow'));
+  if (activeCard){
+    activeCard.classList.add('border','border-primary','shadow');
+  }
+}
+
+function updateCounter(textarea){
+  const el = document.getElementById('tujuanCount');
+  if (el) el.textContent = textarea.value.length;
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  // Prefill kaunter tujuan
+  const tujuan = document.querySelector('textarea[name="tujuan"]');
+  if (tujuan) updateCounter(tujuan);
+
+  // Prefill ruang bila old()
+  const oldKampus = "{{ old('kampus_id') }}";
+  const oldRuang  = "{{ old('ruang_kod') }}";
+  const oldKampusNama = "{{ old('kampus_nama') }}";
+  const oldRuangNama  = "{{ old('ruang_nama') }}";
+
+  if (oldKampus){
+    populateRuang(oldKampus);
+    inputKampusNama.value = oldKampusNama || (kampusSelect.selectedOptions[0]?.dataset?.name || '');
+    if (oldRuang){
+      ruangSelect.value = oldRuang;
+      const opt = [...ruangSelect.options].find(o => o.value === oldRuang);
+      inputRuangNama.value = oldRuangNama || (opt?.dataset?.nama || '');
+      const card = [...document.querySelectorAll('.ruang-card')].find(c => c.dataset.kod === oldRuang) || null;
+      setSelectedCard(card);
+    }
+    ruangSelect.disabled = false;
+  }
+});
+</script>
 @endsection
