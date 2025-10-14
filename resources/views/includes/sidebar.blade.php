@@ -62,7 +62,21 @@
 
     <li class="menu-label">Tetapan</li>
 
-    <li class="{{ Request::is('campus*') ? 'mm-active' : '' }}">
+    <li class="{{ request()->routeIs('ruang.*') ? 'mm-active' : '' }}">
+        <a href="{{ route('ruang.index') }}">
+            <div class="parent-icon"><i class="bx bx-building-house"></i></div>
+            <div class="menu-title">Ruang</div>
+        </a>
+    </li>
+
+    <li class="{{ request()->routeIs('perkhidmatan.*') ? 'mm-active' : '' }}">
+        <a href="{{ route('perkhidmatan.index') }}">
+            <div class="parent-icon"><i class="bx bx-wrench"></i></div>
+            <div class="menu-title">Perkhidmatan</div>
+        </a>
+    </li>
+
+    {{-- <li class="{{ Request::is('campus*') ? 'mm-active' : '' }}">
         <a class="has-arrow" href="#">
             <div class="parent-icon"><i class='bx bx-location-plus'></i></div>
             <div class="menu-title">Lokasi</div>
@@ -84,9 +98,9 @@
                 <a href="{{ route('position') }}"><i class="bx bx-right-arrow-alt"></i>Jawatan</a>
             </li>
         </ul>
-    </li>
+    </li> --}}
 
-    <li class="{{ Request::routeIs('activity-log') ? 'mm-active' : '' }}">
+    {{-- <li class="{{ Request::routeIs('activity-log') ? 'mm-active' : '' }}">
         <a href="{{ route('activity-log') }}">
             <div class="parent-icon"><i class='bx bx-history'></i></div>
             <div class="menu-title">Log Aktiviti</div>
@@ -97,6 +111,6 @@
             <div class="parent-icon"><i class='bx bxs-bug'></i></div>
             <div class="menu-title">Debug Log</div>
         </a>
-    </li>
+    </li> --}}
 </ul>
 <!--end navigation-->

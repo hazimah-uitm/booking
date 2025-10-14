@@ -283,6 +283,112 @@ Route::middleware('auth')->group(function () {
         return redirect()->back()->with('success', 'Bukti pembayaran dimuat naik (mock).');
     })->name('tempahan.pembayaran.upload');
 
+    // =====================
+    //  RUANG (MOCKUP)
+    // =====================
+    Route::prefix('ruang')->name('ruang.')->group(function () {
+
+        // Mock: Senarai kampus untuk dropdown
+        $kampusOptions = [
+            1 => 'UiTM Samarahan 1',
+            2 => 'UiTM Samarahan 2',
+            3 => 'UiTM Mukah',
+        ];
+
+        // INDEX: Senarai Ruang
+        Route::get('/', function () use ($kampusOptions) {
+            // Mock data ruang
+            $ruangList = [
+                ['id' => 1, 'nama' => 'Dewan Besar', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 'Aktif'],
+                ['id' => 2, 'nama' => 'Auditorium', 'kampus_id' => 3, 'pemilik' => 'Fakulti Sains', 'status' => 'Aktif'],
+                ['id' => 3, 'nama' => 'Bilik Perdana', 'kampus_id' => 2, 'pemilik' => 'Pejabat Rektor', 'status' => 'Tidak Aktif'],
+            ];
+            // inject nama kampus
+            foreach ($ruangList as &$r) {
+                $r['kampus_nama'] = isset($kampusOptions[$r['kampus_id']]) ? $kampusOptions[$r['kampus_id']] : '-';
+            }
+
+            return view('pages.ruang.index', compact('ruangList'));
+        })->name('index');
+
+        // FORM: Tambah/Kemaskini
+        Route::get('/form', function () use ($kampusOptions) {
+            $id = request('id');
+            $str_mode   = $id ? 'Kemaskini' : 'Tambah';
+            $save_route = route('ruang.save');
+
+            // Mock rekod bila edit
+            $ruang = $id ? ['id' => 1, 'nama' => 'Dewan Besar', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1] : null;
+
+            return view('pages.ruang.form', compact('str_mode', 'save_route', 'ruang', 'kampusOptions'));
+        })->name('form');
+
+        // SAVE (mock): hanya flash message
+        Route::post('/save', function () {
+            return redirect()->route('ruang.index')->with('success', 'Ruang disimpan (mock).');
+        })->name('save');
+
+        // VIEW: Papar satu ruang
+        Route::get('/{id}', function ($id) use ($kampusOptions) {
+            // Mock lookup by id
+            $ruang = ['id' => (int)$id, 'nama' => 'Dewan Besar', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1];
+            $kampus_nama = isset($kampusOptions[$ruang['kampus_id']]) ? $kampusOptions[$ruang['kampus_id']] : '-';
+            return view('pages.ruang.view', compact('ruang', 'kampus_nama'));
+        })->name('view');
+    });
+
+    // =====================
+    //  PERKHIDMATAN (MOCKUP)
+    // =====================
+    Route::prefix('perkhidmatan')->name('perkhidmatan.')->group(function () {
+
+        // PTJ untuk dropdown
+        $ptjOptions = [
+            10 => 'BPF',
+            20 => 'UPP',
+            30 => 'Infostruktur',
+            40 => 'Fakulti Pengurusan',
+        ];
+
+        // INDEX: Senarai Perkhidmatan
+        Route::get('/', function () use ($ptjOptions) {
+            $perkhidmatanList = [
+                ['id' => 1, 'nama' => 'PA System', 'ptj_id' => 20, 'status' => 1],
+                ['id' => 2, 'nama' => 'WiFi Acara', 'ptj_id' => 30, 'status' => 1],
+                ['id' => 3, 'nama' => 'Pembersihan Khas', 'ptj_id' => 10, 'status' => 0],
+            ];
+            // inject nama PTJ
+            foreach ($perkhidmatanList as &$p) {
+                $p['ptj_nama'] = isset($ptjOptions[$p['ptj_id']]) ? $ptjOptions[$p['ptj_id']] : '-';
+            }
+            return view('pages.perkhidmatan.index', compact('perkhidmatanList'));
+        })->name('index');
+
+        // FORM: Tambah/Kemaskini
+        Route::get('/form', function () use ($ptjOptions) {
+            $id = request('id');
+            $str_mode   = $id ? 'Kemaskini' : 'Tambah';
+            $save_route = route('perkhidmatan.save');
+
+            // mock rekod bila edit
+            $perkhidmatan = $id ? ['id' => 1, 'nama' => 'PA System', 'ptj_id' => 20, 'status' => 1] : null;
+
+            return view('pages.perkhidmatan.form', compact('str_mode', 'save_route', 'perkhidmatan', 'ptjOptions'));
+        })->name('form');
+
+        // SAVE (mock): flash saja
+        Route::post('/save', function () {
+            return redirect()->route('perkhidmatan.index')->with('success', 'Perkhidmatan disimpan (mock).');
+        })->name('save');
+
+        // VIEW: Papar satu perkhidmatan
+        Route::get('/{id}', function ($id) use ($ptjOptions) {
+            $perkhidmatan = ['id' => (int)$id, 'nama' => 'PA System', 'ptj_id' => 20, 'status' => 1];
+            $ptj_nama = isset($ptjOptions[$perkhidmatan['ptj_id']]) ? $ptjOptions[$perkhidmatan['ptj_id']] : '-';
+            return view('pages.perkhidmatan.view', compact('perkhidmatan', 'ptj_nama'));
+        })->name('view');
+    });
+
     //Campus
     Route::get('campus', 'CampusController@index')->name('campus');
     Route::get('campus/view/{id}', 'CampusController@show')->name('campus.show');
