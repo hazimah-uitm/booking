@@ -30,6 +30,21 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 Route::middleware('auth')->group(function () {
 
+    Route::prefix('rekod')->name('rekod.')->group(function () {
+
+        // Tempahan (Form Pemohon)
+        Route::view('/tempahan', 'pages/tempahan/form')->name('tempahan.create');
+
+        // Mock submit (tiada simpanan, cuma flash message)
+        Route::post('/tempahan/mock-submit', function () {
+            return back()->with('success', 'Permohonan dihantar.');
+        })->name('tempahan.store');
+
+        // Sebut Harga & Pembayaran – buat dulu sebagai halaman kosong
+        Route::view('/sebut-harga', 'sebut-harga/index')->name('sebutharga.index');
+        Route::view('/pembayaran', 'pembayaran/index')->name('pembayaran.index');
+    });
+    
     //Campus
     Route::get('campus', 'CampusController@index')->name('campus');
     Route::get('campus/view/{id}', 'CampusController@show')->name('campus.show');

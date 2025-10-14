@@ -81,9 +81,9 @@ a {
 .logo-subtitle {
 	font-family: 'Poppins', sans-serif;
 	font-weight: 400;
-	font-size: 8px;
+	font-size: 14px;
 	margin-left: 10px;
-	margin-top: 2px;
+	margin-top: 8px;
 	color: #fff;
 }
 
@@ -104,8 +104,9 @@ a {
 .logo-subtitle-login {
 	font-family: 'Poppins', sans-serif;
 	font-weight: 400;
-	font-size: 10.5px;
+	font-size: 19px;
 	margin-left: 0;
+	letter-spacing: 3px;
 	margin-top: 5px;
 	color: #fff;
 }
@@ -650,7 +651,7 @@ a {
 }
 
 .bg-login {
-	background-image: url(../images/login-images/bg-login-img.png);
+	background-image: url(../images/login-images/bg-3.jpg);
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -664,7 +665,7 @@ a {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.75);
+	background-color: rgba(0, 0, 0, 0.45);
 	z-index: 1;
 }
 

@@ -3,8 +3,8 @@
         <img src="{{ asset('public/assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
     </div>
     <div>
-        <h4 class="logo-text">MAIN</h4>
-        <h6 class="logo-subtitle">Template System</h6>
+        {{-- <h4 class="logo-text">MAIN</h4> --}}
+        <h6 class="logo-subtitle">Sistem Tempahan & Sewaan Ruang</h6>
     </div>
     <div class="toggle-icon ms-auto" id="toggle-icon"><i class='bx bx-arrow-to-left'></i></div>
 </div>
@@ -18,12 +18,29 @@
         </a>
     </li>
 
-    <li class="{{ Request::routeIs('activity-log') ? 'mm-active' : '' }}">
-        <a href="{{ route('activity-log') }}">
-            <div class="parent-icon"><i class='bx bx-history'></i></div>
-            <div class="menu-title">Log Aktiviti</div>
+    <li class="menu-label">Pengurusan Rekod</li>
+
+    <li class="{{ Request::routeIs('rekod.tempahan.*') ? 'mm-active' : '' }}">
+        <a href="{{ route('rekod.tempahan.create') }}">
+            <div class="parent-icon"><i class='bx bx-calendar-check'></i></div>
+            <div class="menu-title">Tempahan</div>
         </a>
     </li>
+
+    <li class="{{ Request::routeIs('rekod.sebutharga.*') ? 'mm-active' : '' }}">
+        <a href="{{ route('rekod.sebutharga.index') }}">
+            <div class="parent-icon"><i class='bx bx-file'></i></div>
+            <div class="menu-title">Sebut Harga</div>
+        </a>
+    </li>
+
+    <li class="{{ Request::routeIs('rekod.pembayaran.*') ? 'mm-active' : '' }}">
+        <a href="{{ route('rekod.pembayaran.index') }}">
+            <div class="parent-icon"><i class='bx bx-credit-card'></i></div>
+            <div class="menu-title">Pembayaran</div>
+        </a>
+    </li>
+
 
     <li class="menu-label">Pengurusan Pengguna</li>
 
@@ -69,6 +86,12 @@
         </ul>
     </li>
 
+    <li class="{{ Request::routeIs('activity-log') ? 'mm-active' : '' }}">
+        <a href="{{ route('activity-log') }}">
+            <div class="parent-icon"><i class='bx bx-history'></i></div>
+            <div class="menu-title">Log Aktiviti</div>
+        </a>
+    </li>
     <li class="{{ Request::routeIs('logs.debug') ? 'mm-active' : '' }}">
         <a href="{{ route('logs.debug') }}">
             <div class="parent-icon"><i class='bx bxs-bug'></i></div>
