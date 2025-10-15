@@ -41,7 +41,7 @@
                         <button type="button" class="btn btn-outline-primary active" data-campus="ALL">Semua
                             Kampus</button>
                         <button type="button" class="btn btn-outline-primary" data-campus="Samarahan">Samarahan
-                            1</button>
+                            </button>
                         <button type="button" class="btn btn-outline-primary" data-campus="Samarahan 2">Samarahan
                             2</button>
                         <button type="button" class="btn btn-outline-primary" data-campus="Mukah">Mukah</button>
