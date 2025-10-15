@@ -246,7 +246,7 @@
                             <td class="fw-semibold">Hari Terbuka Fakulti<br><small class="text-muted">Pameran</small>
                             </td>
                             <td>
-                                <div>UiTM Samarahan 1</div>
+                                <div>UiTM Samarahan</div>
                                 <div class="text-muted">Dewan Besar (DB-S1)</div>
                             </td>
                             <td>

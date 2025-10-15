@@ -290,7 +290,7 @@ Route::middleware('auth')->group(function () {
 
         // Mock: Senarai kampus untuk dropdown
         $kampusOptions = [
-            1 => 'UiTM Samarahan 1',
+            1 => 'UiTM Samarahan',
             2 => 'UiTM Samarahan 2',
             3 => 'UiTM Mukah',
         ];
@@ -299,9 +299,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () use ($kampusOptions) {
             // Mock data ruang
             $ruangList = [
-                ['id' => 1, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 'Aktif'],
-                ['id' => 2, 'nama' => 'Auditorium', 'kampus_id' => 3, 'pemilik' => 'Fakulti Sains', 'status' => 'Aktif'],
-                ['id' => 3, 'nama' => 'Bilik Perdana', 'kampus_id' => 2, 'pemilik' => 'Pejabat Rektor', 'status' => 'Tidak Aktif'],
+                ['id' => 1, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'BPF', 'status' => 'Aktif'],
+                ['id' => 2, 'nama' => 'Auditorium', 'kampus_id' => 3, 'pemilik' => 'UPP', 'status' => 'Aktif'],
+                ['id' => 3, 'nama' => 'Makmal Komputer B4079', 'kampus_id' => 2, 'pemilik' => 'Infostruktur', 'status' => 'Tidak Aktif'],
             ];
             // inject nama kampus
             foreach ($ruangList as &$r) {
@@ -318,7 +318,7 @@ Route::middleware('auth')->group(function () {
             $save_route = route('ruang.save');
 
             // Mock rekod bila edit
-            $ruang = $id ? ['id' => 1, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1] : null;
+            $ruang = $id ? ['id' => 1, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'BPF', 'status' => 1] : null;
 
             return view('pages.ruang.form', compact('str_mode', 'save_route', 'ruang', 'kampusOptions'));
         })->name('form');
@@ -331,7 +331,7 @@ Route::middleware('auth')->group(function () {
         // VIEW: Papar satu ruang
         Route::get('/{id}', function ($id) use ($kampusOptions) {
             // Mock lookup by id
-            $ruang = ['id' => (int)$id, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'HEP', 'status' => 1];
+            $ruang = ['id' => (int)$id, 'nama' => 'Dewan Jubli', 'kampus_id' => 1, 'pemilik' => 'BPF', 'status' => 1];
             $kampus_nama = isset($kampusOptions[$ruang['kampus_id']]) ? $kampusOptions[$ruang['kampus_id']] : '-';
             return view('pages.ruang.view', compact('ruang', 'kampus_nama'));
         })->name('view');

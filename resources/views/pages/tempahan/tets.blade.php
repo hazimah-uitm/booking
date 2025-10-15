@@ -158,7 +158,7 @@
                                 <td>3</td>
                                 <td class="fw-semibold">Bengkel Inovasi<br><small class="text-muted">Bengkel</small></td>
                                 <td>
-                                    <div>UiTM Samarahan 1</div>
+                                    <div>UiTM Samarahan</div>
                                     <div class="text-muted">Bilik Kuliah 1 (BK1-S1)</div>
                                 </td>
                                 <td>
@@ -228,7 +228,7 @@
                                 <td class="fw-semibold">Hari Terbuka Fakulti<br><small class="text-muted">Pameran</small>
                                 </td>
                                 <td>
-                                    <div>UiTM Samarahan 1</div>
+                                    <div>UiTM Samarahan</div>
                                     <div class="text-muted">Dewan Besar (DB-S1)</div>
                                 </td>
                                 <td>
