@@ -40,7 +40,7 @@
                     <div class="btn-group flex-wrap" role="group" aria-label="Penapis Kampus">
                         <button type="button" class="btn btn-outline-primary active" data-campus="ALL">Semua
                             Kampus</button>
-                        <button type="button" class="btn btn-outline-primary" data-campus="Samarahan 1">Samarahan
+                        <button type="button" class="btn btn-outline-primary" data-campus="Samarahan">Samarahan
                             1</button>
                         <button type="button" class="btn btn-outline-primary" data-campus="Samarahan 2">Samarahan
                             2</button>
@@ -63,7 +63,7 @@
                     <h5 class="mb-2"><span class="badge bg-primary">Kampus Samarahan</span></h5>
                 </div>
 
-                <div class="col-12 col-md-6 col-xl-4 room-card" data-campus="Samarahan 1"
+                <div class="col-12 col-md-6 col-xl-4 room-card" data-campus="Samarahan"
                     data-keywords="dewan utama auditorium pa sistem 500 kerusi pentas">
                     <div class="card shadow-sm">
                         <img src="https://scontent.fkul8-3.fna.fbcdn.net/v/t39.30808-6/487777584_1129792625616360_4170391684103227381_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=diFIBKP_8GkQ7kNvwGUz4_M&_nc_oc=AdlXgdJtSSmquA9Q275TknkKOzMWFs35nzf0HvTPhNzbH0QsM3y_fHqufoFOpf3t9n8uikNBPKVvYJ7SPQeXFg36&_nc_zt=23&_nc_ht=scontent.fkul8-3.fna&_nc_gid=RysUROkthQPZlq8yJa7ZhQ&oh=00_AffEzVAAAHZ97o2YUDdzFt0dR-6KH6NS-T3gNDQwMpevxg&oe=68F4CB88"
@@ -85,7 +85,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-xl-4 room-card" data-campus="Samarahan 1"
+                <div class="col-12 col-md-6 col-xl-4 room-card" data-campus="Samarahan"
                     data-keywords="bilik mesyuarat meeting tv 20 kerusi">
                     <div class="card shadow-sm">
                         <img src="https://library.uitm.edu.my/images/space/image/sarawak/computer_lab_srwk.jpg"
@@ -93,7 +93,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start">
                                 <h5 class="card-title mb-1">Makmal Komputer</h5>
-                                <span class="badge bg-secondary">Samarahan 1</span>
+                                <span class="badge bg-secondary">Samarahan</span>
                             </div>
                             <p class="text-muted small mb-2">Mesyuarat / Bengkel Kecil</p>
                             <ul class="list-unstyled small mb-0">
