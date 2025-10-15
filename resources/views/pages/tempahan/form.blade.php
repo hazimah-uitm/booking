@@ -145,7 +145,7 @@ const DATA_RUANG = {
     { kod:"BK1-S2", nama:"Bilik Kuliah",kapasiti:80,   img:"https://www.kpmaiwp.edu.my/2025/wp-content/uploads/2024/09/red_DSC01760-1.jpg" },
   ],
   "MUK": [
-    { kod:"AUD-MUK",  nama:"Auditorium",   kapasiti:250, img:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"AUD-MUK",  nama:"Auditorium",   kapasiti:250, img:"https://scontent.fkul8-1.fna.fbcdn.net/v/t39.30808-6/493999641_711541281437128_3715376000729520120_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=qSY6pw33nTIQ7kNvwHR2w_3&_nc_oc=AdlJYJybG6SDiggS4UwAvngU6q_lBPwZ1wJInNiKWeFwQkk8H0NP6paEhkM4PNd201ID90YP36Mwb1Uj_jq4tnUv&_nc_zt=23&_nc_ht=scontent.fkul8-1.fna&_nc_gid=t1PcAnFurGlC3fMyI-Ydgg&oh=00_AffHS1R5AZ_0nnojz0MHTLN0MJEFvc1QCT8vGDFwWZMMtQ&oe=68F4C8A4" },
     { kod:"BK-A-MUK", nama:"Bilik Kuliah",kapasiti:50, img:"https://www.kpmaiwp.edu.my/2025/wp-content/uploads/2024/09/red_DSC01724-1.jpg" },
   ],
 };

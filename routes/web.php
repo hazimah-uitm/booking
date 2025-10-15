@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 Route::get('/', function () {
-    return view('auth.login');
-});
+    return view('pages.landing');
+})->name('main');
+
+
 
 // Login & logout function
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');

@@ -23,7 +23,44 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-login">
+<body>
+{{-- NAVBAR --}}
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top custom-navbar">
+  <div class="container">
+    <a class="navbar-brand text-uppercase" href="{{ route('main') }}">SISTEM TEMPAHAN & SEWAAN RUANG</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        @guest
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-sm btn-primary text-uppercase d-flex align-items-center gap-1"
+               href="{{ route('login') }}">
+              <i class="bx bx-log-in"></i> Log Masuk
+            </a>
+          </li>
+        @endguest
+
+        @auth
+          <li class="nav-item ms-lg-2">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+              {{ csrf_field() }}
+              <button type="submit" class="btn btn-sm btn-warning text-uppercase d-flex align-items-center gap-1">
+                <i class="bx bx-log-out"></i> Log Keluar
+              </button>
+            </form>
+          </li>
+        @endauth
+      </ul>
+    </div>
+  </div>
+</nav>
+{{-- END NAVBAR --}}
+
     <!--wrapper-->
     @if (session('success'))
     <div id="floating-success-message" class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11; display: none; animation: fadeInUp 0.5s ease-out;">
