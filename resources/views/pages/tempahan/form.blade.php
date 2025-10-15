@@ -135,18 +135,18 @@
 <script>
 const DATA_RUANG = {
   "S1": [
-    { kod:"DJ-S1",  nama:"Dewan Jubli",   kapasiti:800,  img:"https://images.unsplash.com/photo-1503428593586-e225b39bddfe?q=80&w=1200&auto=format&fit=crop" },
-    { kod:"AUD-S1", nama:"Auditorium",    kapasiti:300,  img:"https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=1200&auto=format&fit=crop" },
-    { kod:"BK1-S1", nama:"Bilik Kuliah 1",kapasiti:60,   img:"https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"DJ-S1",  nama:"Dewan Jubli",   kapasiti:800,  img:"https://scontent.fkul8-3.fna.fbcdn.net/v/t39.30808-6/487777584_1129792625616360_4170391684103227381_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=diFIBKP_8GkQ7kNvwGUz4_M&_nc_oc=AdlXgdJtSSmquA9Q275TknkKOzMWFs35nzf0HvTPhNzbH0QsM3y_fHqufoFOpf3t9n8uikNBPKVvYJ7SPQeXFg36&_nc_zt=23&_nc_ht=scontent.fkul8-3.fna&_nc_gid=RysUROkthQPZlq8yJa7ZhQ&oh=00_AffEzVAAAHZ97o2YUDdzFt0dR-6KH6NS-T3gNDQwMpevxg&oe=68F4CB88" },
+    { kod:"AUD-S1", nama:"Makmal Komputer",    kapasiti:300,  img:"https://library.uitm.edu.my/images/space/image/sarawak/computer_lab_srwk.jpg" },
+    { kod:"BK1-S1", nama:"Bilik Kuliah",kapasiti:60,   img:"https://education.uitm.edu.my/images/Images_EDU/facilities/bilik_kuliah.jpg" },
   ],
   "S2": [
-    { kod:"DJ-S2",  nama:"Dewan Jubli",   kapasiti:1000, img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" },
-    { kod:"AUD-S2", nama:"Auditorium",    kapasiti:350,  img:"https://images.unsplash.com/photo-1470229702981-0f158b006d51?q=80&w=1200&auto=format&fit=crop" },
-    { kod:"BK1-S2", nama:"Bilik Kuliah 1",kapasiti:80,   img:"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"DJ-S2",  nama:"Bilik Seminar Utama",   kapasiti:1000, img:"https://scontent.fkul8-5.fna.fbcdn.net/v/t39.30808-6/481474411_653497990387721_4898825800927554743_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6lkmF9fxxo8Q7kNvwGi2aPf&_nc_oc=AdlQwWosWJZu8SX2Sr0bwFPh2XWoV65yRYFriYDWfIxIgsFZYYv0SdqL0dkiFpDHJtj5-Cu2ArLurs8L46UyXspS&_nc_zt=23&_nc_ht=scontent.fkul8-5.fna&_nc_gid=Nz_UZXWFNN70Y831v60GbA&oh=00_AfcpjgrSGJIV1pzVuhHN8SIgeu17s5RkeWBcdP5tfgHyLA&oe=68F4A6B8" },
+    { kod:"AUD-S2", nama:"Auditorium",    kapasiti:350,  img:"https://scontent.fkul8-4.fna.fbcdn.net/v/t39.30808-6/488641459_1113162634188316_6081588724196745929_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=uVza5E9m3W8Q7kNvwHFRJpf&_nc_oc=Adkl39qvk9cYbYLlJ05m9EIzptcd6Nqs_Sd6OzgOTSA0vOD-08fj9Fw1RFoaedqwsKSiStxkFHndIPLepKZvRDMu&_nc_zt=23&_nc_ht=scontent.fkul8-4.fna&_nc_gid=KGeeGLBSyxiieJ8M9LPrsA&oh=00_Affd1AgOLNisd0pJURFNxISboRrO9XPFmYXBxiUqtxbchw&oe=68F4B40E" },
+    { kod:"BK1-S2", nama:"Bilik Kuliah",kapasiti:80,   img:"https://www.kpmaiwp.edu.my/2025/wp-content/uploads/2024/09/red_DSC01760-1.jpg" },
   ],
   "MUK": [
     { kod:"AUD-MUK",  nama:"Auditorium",   kapasiti:250, img:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop" },
-    { kod:"BK-A-MUK", nama:"Bilik Kuliah A",kapasiti:50, img:"https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1200&auto=format&fit=crop" },
+    { kod:"BK-A-MUK", nama:"Bilik Kuliah",kapasiti:50, img:"https://www.kpmaiwp.edu.my/2025/wp-content/uploads/2024/09/red_DSC01724-1.jpg" },
   ],
 };
 
